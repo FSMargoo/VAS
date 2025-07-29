@@ -334,8 +334,8 @@ void main() {
     float boxBlockD  = SDFBox(uv, rectangleBlock);
     float triBlockD  = SDFTriangle(uv, triangleBlock);
 
-    if (rectLightD <= 0.0) { color = rectangleLight.Color * 1.8; break; }
-    if (triLightD <= 0.0) { color = triangleLight.Color * 1.8; break; }
+    if (rectLightD <= 0.0) { color = rectangleLight.Color; break; }
+    if (triLightD <= 0.0) { color = triangleLight.Color; break; }
     if (boxBlockD <= 0.0) { color = vec3(0.0); break; }
     if (triBlockD <= 0.0) { color = vec3(0.0); break; }
 
@@ -371,7 +371,7 @@ void main() {
             }
         }
 
-        color += rectangleLight.Color * (theta / PI);
+        color += rectangleLight.Color * (theta / (2 * PI));
     } while(false);
 
     // Process the triangle light
@@ -406,9 +406,9 @@ void main() {
             }
         }
 
-        color += triangleLight.Color * (theta / PI);
+        color += triangleLight.Color * (theta / (2 * PI));
     } while(false);
     } while(false);
 
-    FragColor = vec4(color, 1.0);
+    FragColor = vec4(color, 1.0) * 2.0;
 }

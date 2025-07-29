@@ -352,8 +352,8 @@ void main()
     }
 
     if (flag) { break; }
-    if (rectLightD <= 0.0) { color = rectangleLight.Color * 1.8; break; }
-    if (triLightD <= 0.0) { color = triangleLight.Color * 1.8; break; }
+    if (rectLightD <= 0.0) { color = rectangleLight.Color; break; }
+    if (triLightD <= 0.0) { color = triangleLight.Color; break; }
 
     // Process the rectangle light
     {
@@ -375,7 +375,7 @@ void main()
             }
         }
 
-        color += rectangleLight.Color * (theta / PI);
+        color += rectangleLight.Color * (theta / (2 * PI));
     }
 
     // Process the triangle light
@@ -405,9 +405,9 @@ void main()
             }
         }
 
-        color += triangleLight.Color * (theta / PI);
+        color += triangleLight.Color * (theta / (2 * PI));
     } while(false);
     } while(false);
 
-    FragColor = vec4(color, 1.0);
+    FragColor = vec4(color, 1.0) * 2.0;
 }
