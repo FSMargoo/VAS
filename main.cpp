@@ -1,4 +1,5 @@
-﻿#include "backends/imgui_impl_opengl3.h"
+﻿#include <windows.h>
+#include "backends/imgui_impl_opengl3.h"
 
 #include <glad/glad.h>
 
@@ -26,6 +27,7 @@ int main() {
 	std::string vertexShaderSource = LoadShaderSource("../shader/vertex.glsl");
 	const GLchar* vShaderCode = vertexShaderSource.c_str();
 	glShaderSource(vertexShader, 1, &vShaderCode, NULL);
+	glCompileShader(vertexShader);
 
 	auto scene1 = CreateScene("../shader/scenes/scene1.glsl");
 	auto scene2 = CreateScene("../shader/scenes/scene2.glsl");
@@ -282,6 +284,7 @@ GLuint CreateScene(std::string FileName) {
 	glGetShaderiv(scene, GL_COMPILE_STATUS, &success);
 	if (!success) {
 		glGetShaderInfoLog(scene, 512, nullptr, infoLog);
+		MessageBoxA(nullptr, infoLog, "Error", MB_OK + 16);
 	}
 
 	return scene;

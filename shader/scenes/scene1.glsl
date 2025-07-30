@@ -339,32 +339,33 @@ void main() {
     if (boxBlockD <= 0.0) { color = vec3(0.0); break; }
     if (triBlockD <= 0.0) { color = vec3(0.0); break; }
 
+    vec4 boxBlockSet = GetFramingPointsRectangle(uv, rectangleBlock);
+    vec4 triBlockSet = GetFramingPointsTriangle(uv, triangleBlock);
+
     // Process the rectangle light
     {
         float theta = AngleBox(uv, rectangleLight.Data);
         if (rectLightD > boxBlockD) {
-            vec4 blockSet = GetFramingPointsRectangle(uv, rectangleBlock);
             vec4 lightSet = GetFramingPointsRectangle(uv, rectangleLight.Data);
 
             vec2 lv1 = lightSet.xy;
             vec2 lv2 = lightSet.zw;
 
-            vec2 v1 = blockSet.xy;
-            vec2 v2 = blockSet.zw;
+            vec2 v1 = boxBlockSet.xy;
+            vec2 v2 = boxBlockSet.zw;
 
             if (DoMinorArcsOverlap(lv1, lv2, v1, v2)) {
                 theta -= GetMinorArcsOverlapAngle(lv1, lv2, v1, v2);
             }
         }
         if (rectLightD > triBlockD) {
-            vec4 blockSet = GetFramingPointsTriangle(uv, triangleBlock);
             vec4 lightSet = GetFramingPointsRectangle(uv, rectangleLight.Data);
 
             vec2 lv1 = lightSet.xy;
             vec2 lv2 = lightSet.zw;
 
-            vec2 v1 = blockSet.xy;
-            vec2 v2 = blockSet.zw;
+            vec2 v1 = triBlockSet.xy;
+            vec2 v2 = triBlockSet.zw;
 
             if (DoMinorArcsOverlap(lv1, lv2, v1, v2)) {
                 theta -= GetMinorArcsOverlapAngle(lv1, lv2, v1, v2);
@@ -378,28 +379,26 @@ void main() {
     {
         float theta = AngleTriangle(uv, triangleLight.Data);
         if (triLightD > boxBlockD) {
-            vec4 blockSet = GetFramingPointsRectangle(uv, rectangleBlock);
             vec4 lightSet = GetFramingPointsTriangle(uv, triangleLight.Data);
 
             vec2 lv1 = lightSet.xy;
             vec2 lv2 = lightSet.zw;
 
-            vec2 v1 = blockSet.xy;
-            vec2 v2 = blockSet.zw;
+            vec2 v1 = boxBlockSet.xy;
+            vec2 v2 = boxBlockSet.zw;
 
             if (DoMinorArcsOverlap(lv1, lv2, v1, v2)) {
                 theta -= GetMinorArcsOverlapAngle(lv1, lv2, v1, v2);
             }
         }
         if (triLightD > triBlockD) {
-            vec4 blockSet = GetFramingPointsTriangle(uv, triangleBlock);
             vec4 lightSet = GetFramingPointsTriangle(uv, triangleLight.Data);
 
             vec2 lv1 = lightSet.xy;
             vec2 lv2 = lightSet.zw;
 
-            vec2 v1 = blockSet.xy;
-            vec2 v2 = blockSet.zw;
+            vec2 v1 = triBlockSet.xy;
+            vec2 v2 = triBlockSet.zw;
 
             if (DoMinorArcsOverlap(lv1, lv2, v1, v2)) {
                 theta -= GetMinorArcsOverlapAngle(lv1, lv2, v1, v2);

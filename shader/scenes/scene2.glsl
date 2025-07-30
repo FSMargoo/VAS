@@ -355,13 +355,20 @@ void main()
     if (rectLightD <= 0.0) { color = rectangleLight.Color; break; }
     if (triLightD <= 0.0) { color = triangleLight.Color; break; }
 
+    vec4 blockSets[blocks];
+    vec4 boxLightSet = GetFramingPointsRectangle(uv, rectangleLight.Data);
+    vec4 triLightSet = GetFramingPointsTriangle(uv, triangleLight.Data);
+    for (int i = 0; i < blocks; ++i) {
+        blockSets[i] = GetFramingPointsRectangle(uv, rectangleBlocks[i]);
+    }
+
     // Process the rectangle light
     {
         float theta = AngelBox(uv, rectangleLight.Data);
         for (int i = 0; i < blocks; ++i) {
             if (rectLightD > boxBlockD[i]) {
-                vec4 blockSet = GetFramingPointsRectangle(uv, rectangleBlocks[i]);
-                vec4 lightSet = GetFramingPointsRectangle(uv, rectangleLight.Data);
+                vec4 blockSet = blockSets[i];
+                vec4 lightSet = boxLightSet;
 
                 vec2 lv1 = lightSet.xy;
                 vec2 lv2 = lightSet.zw;
@@ -383,8 +390,8 @@ void main()
         float theta = AngelTriangle(uv, triangleLight.Data);
         for (int i = 0; i < blocks; ++i) {
             if (triLightD > boxBlockD[i]) {
-                vec4 blockSet = GetFramingPointsRectangle(uv, rectangleBlocks[i]);
-                vec4 lightSet = GetFramingPointsTriangle(uv, triangleLight.Data);
+                vec4 blockSet = blockSets[i];
+                vec4 lightSet = triLightSet;
 
                 vec2 lv1 = lightSet.xy;
                 vec2 lv2 = lightSet.zw;
